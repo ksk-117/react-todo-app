@@ -1,22 +1,26 @@
 import { useState } from "react";
+import { Todo } from "./types";
+import { initTodos } from "./initTodos";
 import WelcomeMessage from "./WelcomeMessage";
+import TodoList from "./TodoList";
 
 const App = () => {
-  const [count, setCount] = useState(0);
-  const countUp = () => {
-    const newCount = count + 1;
-    setCount(newCount);
-  };
+  const [todos, setTodos] = useState<Todo[]>(initTodos);
+  const uncompletedCount = initTodos.filter(
+    (todo: Todo) => !todo.isDone
+  ).length; // 未完了タスクの数え上げ
+  console.log(JSON.stringify(todos, null, 2));
+
   return (
     <div className="mx-4 mt-10 max-w-2xl md:mx-auto">
       <h1 className="mb-4 text-2xl font-bold">TodoApp</h1>
-      <WelcomeMessage name="萱島ウサギ" uncompletedCount={6} /> 
-      <button
-        className="rounded-md bg-blue-500 px-4 py-0.5 text-white hover:bg-blue-700"
-        onClick={countUp}
-      >
-        count is {count}
-      </button>
+      <div className="mb-4">
+        <WelcomeMessage
+          name="寝屋川タヌキ"
+          uncompletedCount={uncompletedCount}
+        />
+      </div>
+      <TodoList todos={todos} />
     </div>
   );
 };
