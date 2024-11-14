@@ -7,17 +7,22 @@ type Props = {
 
 const TodoList = (props: Props) => {
   const todos = props.todos;
+
+  if (todos.length === 0) {
+    return (
+      <div className="text-red-500">
+        現在、登録されているタスクはありません。
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-1">
-      <div>
-        {todos[0].name} 優先度: {todos[0].priority}
-      </div>
-      <div>
-        {todos[1].name} 優先度: {todos[1].priority}
-      </div>
-      <div>
-        {todos[2].name} 優先度: {todos[2].priority}
-      </div>
+      {todos.map((todo) => (
+        <div key={todo.id}>
+          {todo.name} 優先度: {todo.priority}
+        </div>
+      ))}
     </div>
   );
 };
