@@ -1,17 +1,18 @@
 import { useState } from "react";
+import WelcomeMessage from "./WelcomeMessage";
 
 const App = () => {
-  const hoge = "Hoge";
   const [count, setCount] = useState(0);
   const countUp = () => {
     const newCount = count + 1;
     setCount(newCount);
   };
   return (
-    <div className="mx-4 md:mx-auto mt-10 max-w-2xl">
-      <h1 className="font-bold text-2xl mb-4">TodoApp</h1>
+    <div className="mx-4 mt-10 max-w-2xl md:mx-auto">
+      <h1 className="mb-4 text-2xl font-bold">TodoApp</h1>
+      <WelcomeMessage name="萱島ウサギ" uncompletedCount={6} /> 
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
+        className="rounded-md bg-blue-500 px-4 py-0.5 text-white hover:bg-blue-700"
         onClick={countUp}
       >
         count is {count}
