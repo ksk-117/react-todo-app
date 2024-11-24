@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Todo } from "./types";
 import { initTodos } from "./initTodos";
 import WelcomeMessage from "./WelcomeMessage";
@@ -11,15 +11,42 @@ import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./Modal"; // モーダルコンポーネントをインポート
 
 const App = () => {
-  const [todos, setTodos] = useState<Todo[]>(initTodos);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodoName, setNewTodoName] = useState("");
   const [newTodoPriority, setNewTodoPriority] = useState(3);
   const [newTodoDeadline, setNewTodoDeadline] = useState<Date | null>(null);
   const [newTodomemo, setNewTodomemo] = useState("");
   const [newTodoNameError, setNewTodoNameError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [initialized, setInitialized] = useState(false); // ◀◀ 追加
+  const localStorageKey = "TodoApp"; // ◀◀ 追加
+  // App コンポーネントの初回実行時のみLocalStorageからTodoデータを復元
+  useEffect(() => {
+    const todoJsonStr = localStorage.getItem(localStorageKey);
+    if (todoJsonStr && todoJsonStr !== "[]") {
+      const storedTodos: Todo[] = JSON.parse(todoJsonStr);
+      const convertedTodos = storedTodos.map((todo) => ({
+        ...todo,
+        deadline: todo.deadline ? new Date(todo.deadline) : null,
+      }));
+      setTodos(convertedTodos);
+    } else {
+      // LocalStorage にデータがない場合は initTodos をセットする
+      setTodos(initTodos);
+    }
+    setInitialized(true);
+  }, []);
 
-  const uncompletedCount = todos.filter((todo: Todo) => !todo.isDone).length;
+  // 状態 todos または initialized に変更があったときTodoデータを保存
+  useEffect(() => {
+    if (initialized) {
+      localStorage.setItem(localStorageKey, JSON.stringify(todos));
+    }
+  }, [todos, initialized]);
+
+  const uncompletedCount = todos.filter(
+    (todo: Todo) => !todo.isDone
+  ).length;
 
   const isValidTodoName = (name: string): string => {
     if (name.length < 2 || name.length > 32) {
@@ -81,6 +108,11 @@ const App = () => {
     setTodos(updatedTodos);
   };
 
+  const remove = (id: string) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos);
+  };
+
   return (
     <div className="mx-4 mt-10 max-w-2xl md:mx-auto text-white">
       <h1 className="mb-4 text-2xl font-extrabold">TodoApp</h1>
@@ -126,7 +158,7 @@ const App = () => {
       </button>
 
       <div className="py-4">
-        <TodoList todos={todos} updateIsDone={updateIsDone} />
+        <TodoList todos={todos} updateIsDone={updateIsDone} remove={remove} />
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
@@ -176,7 +208,7 @@ const App = () => {
               </label>
             ))}
           </div>
-
+          
           <div className="flex items-center gap-x-2">
             <label htmlFor="deadline" className="font-bold">
               期限
@@ -191,6 +223,20 @@ const App = () => {
               }
               onChange={updateDeadline}
               className="rounded-md border border-gray-400 px-2 py-0.5 text-black"
+            />
+          </div>
+
+          <div>
+            <label className="font-bold" htmlFor="memo">
+              メモ
+            </label>
+            <input
+              id="memo"
+              type="text"
+              value={newTodomemo}
+              onChange={(e) => setNewTodomemo(e.target.value)}
+              className="grow rounded-md border mx-4 p-2 text-black"
+              placeholder="メモを入力してください"
             />
           </div>
 

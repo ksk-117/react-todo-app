@@ -8,6 +8,7 @@ import { twMerge } from "tailwind-merge";
 type Props = {
   todos: Todo[];
   updateIsDone: (id: string, value: boolean) => void;
+  remove: (id: string) => void; // ◀◀ 追加
 };
 
 const num2star = (n: number): string => "★".repeat(n);
@@ -43,8 +44,8 @@ const TodoList = (props: Props) => {
           key={todo.id}
           className={twMerge(
             "rounded-lg border border-white bg-gray-700 px-4 py-2 drop-shadow-lg",
-            dayjs(todo.deadline).isBefore(oneDayBefore) && "bg-yellow-200 text-red-500",
-            dayjs(todo.deadline).isBefore(oneDayAfter) && dayjs(todo.deadline).isAfter(oneDayBefore) && "bg-yellow-200 text-yellow-800",
+            dayjs(todo.deadline).isBefore(oneDayBefore) && "bg-yellow-100 text-red-500",
+            dayjs(todo.deadline).isBefore(oneDayAfter) && dayjs(todo.deadline).isAfter(oneDayBefore) && "bg-yellow-100 text-yellow-800",
             todo.isDone && "bg-gray-200 opacity-50 text-gray-500"
           )}
         >
@@ -61,6 +62,12 @@ const TodoList = (props: Props) => {
             <span className="ml-2 text-orange-400">
               {num2star(todo.priority)}
             </span>
+            <button
+              onClick={() => props.remove(todo.id)}
+              className="ml-auto justify-end rounded-md px-2 py-1 font-bold hover:text-red-200"
+            >
+              ✘
+            </button>
             <div>
               {
                 todo.deadline ? (dayjs(todo.deadline).isBefore(dayjs()) ?
