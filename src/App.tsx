@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Todo } from "./types";
 import { initTodos } from "./initTodos";
-import WelcomeMessage from "./WelcomeMessage";
 import TodoList from "./TodoList";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
