@@ -9,14 +9,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { twMerge } from "tailwind-merge";
 
+
+
 type Props = {
   todos: Todo[];
+  updateIsDone: (id: string, value: boolean) => void; // ◀◀ 追加
 };
 
-const num2star = (n: number): string => "★".repeat(4 - n);
+const num2star = (n: number): string => "★".repeat(n);
 
 const TodoList = (props: Props) => {
-  const todos = props.todos;
+  const todos = [...props.todos].sort((a, b) => a.priority - b.priority);
 
   if (todos.length === 0) {
     return (
@@ -29,12 +32,20 @@ const TodoList = (props: Props) => {
   return (
     <div className="space-y-2">
       {todos.map((todo) => (
-        <div key={todo.id}>
+        <div key={todo.id} className="flex items-center">
+          <input
+            type="checkbox"
+            checked={todo.isDone}
+            onChange={(e) => props.updateIsDone(todo.id, e.target.checked)}
+            className="mr-1.5 cursor-pointer"
+          />
           <div>
-            {todo.name} 優先度: {todo.priority}
-          </div>
-          <div className="ml-2 text-orange-400">
-            {num2star(todo.priority)}
+            <div>
+              {todo.name} 優先度: {todo.priority}
+            </div>
+            <div className="ml-2 text-orange-400">
+              {num2star(todo.priority)}
+            </div>
           </div>
         </div>
       ))}
