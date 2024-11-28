@@ -33,7 +33,7 @@ React、TypeScript、Tailwind CSS を使用し、ローカルストレージで�
 dayjs(todo.deadline).isBefore(today) && "bg-yellow-100 text-red-500"`
 
 また、「メモ機能」においては、リンクかメモ書きかを判断する機能にこだわりました。  
-`
+```
 {isLink(todo.memo) ? (
   <a
     href={todo.memo}
@@ -46,7 +46,7 @@ dayjs(todo.deadline).isBefore(today) && "bg-yellow-100 text-red-500"`
 ) : (
   <p>{todo.memo}</p>
 )}
-`
+```
 
 ## 開発履歴
 
