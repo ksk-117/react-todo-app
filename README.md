@@ -29,8 +29,10 @@ React、TypeScript、Tailwind CSS を使用し、ローカルストレージで�
 ## こだわった点
 　特にこだわった点は「期限によるUIの変化」と「メモ機能」の２点です。  
 「期限によるUIの変化」では、以下の条件式の作成に特に時間をかけました。    
-`dayjs(todo.deadline).isAfter(today) && dayjs(todo.deadline).isBefore(tomorrow) && "bg-yellow-100 text-yellow-800",  
-dayjs(todo.deadline).isBefore(today) && "bg-yellow-100 text-red-500"`
+```
+dayjs(todo.deadline).isAfter(today) && dayjs(todo.deadline).isBefore(tomorrow) && "bg-yellow-100 text-yellow-800",  
+dayjs(todo.deadline).isBefore(today) && "bg-yellow-100 text-red-500"
+```
 
 また、「メモ機能」においては、リンクかメモ書きかを判断する機能にこだわりました。  
 ```
