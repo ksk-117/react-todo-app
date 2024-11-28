@@ -25,7 +25,7 @@ export const initTodos: Todo[] = [
     name: "プログラミング3の課題1",
     isDone: false,
     priority: 3,
-    deadline: new Date(2024, 10, 27),
+    deadline: new Date(2024, 10, 28),
     memo: "https://classroom.google.com/c/NzA2ODk3OTU3MzYy/a/NzMxMzA0OTY0MDk2/details",
   },
 
