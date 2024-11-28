@@ -19,20 +19,22 @@ React、TypeScript、Tailwind CSS を使用し、ローカルストレージで�
 タスクの☆の右側にある✘印を押すことでタスクを個別に削除することができます。
 
 ### (6) 期限によるUIの変化
-期限の24時間になると、背景のUIが薄黄色に変化し目立つようになります。
+期限の24時間になると、背景のUIが薄黄色に変化し目立つようになります。  
 期限を過ぎたものは、背景のUIが薄黄色になり文字が赤色になります。
 
 ### (7) メモ機能
-新規タスクの追加時にメモを設定できます。
+新規タスクの追加時にメモを設定できます。  
 メモがリンクの場合はクリックすることでリンク先に飛ぶことができます。
 
 ## こだわった点
-　特にこだわった点は「期限によるUIの変化」と「メモ機能」の２点です。
-「期限によるUIの変化」では、以下の条件式の作成に特に時間をかけました。
-`dayjs(todo.deadline).isAfter(today) && dayjs(todo.deadline).isBefore(tomorrow) && "bg-yellow-100 text-yellow-800",
+　特にこだわった点は「期限によるUIの変化」と「メモ機能」の２点です。  
+「期限によるUIの変化」では、以下の条件式の作成に特に時間をかけました。    
+`dayjs(todo.deadline).isAfter(today) && dayjs(todo.deadline).isBefore(tomorrow) && "bg-yellow-100 text-yellow-800",  
 dayjs(todo.deadline).isBefore(today) && "bg-yellow-100 text-red-500"`
-また、「メモ機能」においては、リンクかメモ書きかを判断する機能にこだわりました。
-`{isLink(todo.memo) ? (
+
+また、「メモ機能」においては、リンクかメモ書きかを判断する機能にこだわりました。  
+`
+{isLink(todo.memo) ? (
   <a
     href={todo.memo}
     target="_blank"
@@ -43,7 +45,8 @@ dayjs(todo.deadline).isBefore(today) && "bg-yellow-100 text-red-500"`
   </a>
 ) : (
   <p>{todo.memo}</p>
-)}`
+)}
+`
 
 ## 開発履歴
 
